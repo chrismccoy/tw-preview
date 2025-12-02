@@ -86,12 +86,7 @@ class Tailwind_Previewer {
         $uid = 'tw-' . uniqid();
 
         $rendered_html = do_shortcode( shortcode_unautop( $content ) );
-
-        $clean_source = trim( $content );
-        $clean_source = preg_replace( '/^<p>|<\/p>$/', '', $clean_source );
-        $clean_source = preg_replace( '/<br\s*\/?>/i', "", $clean_source );
-        $clean_source = str_replace( '<p></p>', '', $clean_source );
-        $source_code  = esc_html( $clean_source );
+	$source_code = esc_html( preg_replace( ['/^<p>|<\/p>$/', '/<br\s*\/?>/i', '/<p><\/p>/'], '', trim( $content ) ) );
 
         ob_start();
         ?>
@@ -122,7 +117,7 @@ class Tailwind_Previewer {
                 </div>
 
                 <div class="twp-pane twp-code-pane" data-pane="code">
-                    <pre><code class="language-html" id="<?php echo $uid; ?>-source"><?php echo $source_code;
+		    <pre><code class="language-html" id="<?php echo $uid; ?>-source"><?php echo $source_code; ?></code></pre>
                 </div>
             </div>
         </div>
